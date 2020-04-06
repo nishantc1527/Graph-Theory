@@ -1,12 +1,20 @@
+# --------------------------------------------------------
+# This file holds all implantation's of the graph's
+# and holds all the algorithms being used on the graph's
+# --------------------------------------------------------
+
 import math
 
 
 class Vertex:
     def __init__(self, val):
-        self.val = val
-        self.dist = None
-        self.prev = None
-        self.color = None
+        self.val = val  # value unique to this vertex
+        self.dist = None  # used in the minimum path algorithms. dist stores the minimum path from source to this
+        # vertex calculated so far
+        self.prev = None  # used in the minimum path algorithms. prev stores the previous vertex in the path so
+        # afterwards you can find the path using prev values
+        self.color = None  # 0 (white) means not visited yet, 1 (grey) means visited but didn't visit all neighbors,
+        # 2 (black) means visited and visited all neighbors
 
     def __str__(self):
         return str(self.val)
@@ -16,13 +24,14 @@ class Graph:
     def __init__(self):
         pass
 
-    def add_vertex(self, val):
+    def add_vertex(self, val):  # adds a new vertex with a value of val to the graph
         pass
 
-    def connect(self, val1, val2, weight):
+    def connect(self, val1, val2, weight):  # connects two vertices, and if it is a weighted graph, connect them with
+        # a weight of weight
         pass
 
-    def get(self, val):
+    def get(self, val):  # get the vertex form (reference) of the vertex with value as val
         pass
 
 
@@ -67,8 +76,8 @@ def init_graph(directed_graph, source):  # resets all attributes
     for v in directed_graph.vertices.values():
         v.prev = None
         v.color = 0
-        v.dist = math.inf
-    graph.get(source).dist = 0
+        v.dist = math.inf  # you don't know a path from source to this vertex, so set it to infinity
+    directed_graph.get(source).dist = 0  # the distance from source to source is always 0
 
 
 def shortest_path_bfs_initializer(directed_graph, source):
@@ -76,7 +85,7 @@ def shortest_path_bfs_initializer(directed_graph, source):
     # white means not visited, grey means visited, black means visited and all neighbors are visited
 
     init_graph(directed_graph, source)
-    queue = [graph.get(source)]  # initializes color and prev values of all vertices to nothing, and the
+    queue = [directed_graph.get(source)]  # initializes color and prev values of all vertices to nothing, and the
     # queue used to perform breadth-first-search
     while not len(queue) == 0:
         curr = queue.pop(0)
@@ -112,11 +121,13 @@ def shortest_path_bfs(directed_graph, source, target):
     return ans
 
 
-def print_shortest_path(directed_graph, source, target):
-    path = shortest_path_bfs(directed_graph, source, target)
-    for i in range(len(path) - 1):
+def print_shortest_path_bfs(directed_graph, source,
+                            target):  # prints the shortest path from source to target in a directed graph
+    path = shortest_path_bfs(directed_graph, source,
+                             target)  # get the path from source to target using shortest_path_bfs()
+    for i in range(len(path) - 1):  # print all of them except the last one so you don't have an extra ->
         print(path[i], "->", end=" ")
-    print(path[len(path) - 1])
+    print(path[len(path) - 1])  # print the last one
 
 
 def initialize_single_source(weighted_graph, source):  # initialize all attributes for every vertex in graph
@@ -169,27 +180,33 @@ def shortest_path_bellman_ford(weighted_graph, source):
                         # you can, set the prev value too
 
 
-graph = WeightedGraph()
-graph.add_vertex(1)
-graph.add_vertex(2)
-graph.add_vertex(3)
-graph.add_vertex(4)
-graph.add_vertex(5)
-graph.connect(1, 2, 6)  # connects vertex 1 to 2 with weight of 6
-graph.connect(2, 3, 5)  # connects vertex 2 to 3 with weight of 5
-graph.connect(3, 4, 2)  # connects vertex 4 to 3 with weight of 2
-graph.connect(4, 5, 3)  # connects vertex 5 to 4 with weight of 3
-graph.connect(1, 5, 1)  # connects vertex 1 to 5 with weight of 1
-graph.connect(5, 2, 1)  # connects vertex 2 to 5 with weight of 1
-print_shortest_path(graph, 1, 2)
+def print_shortest_path_dikstra(weighted_graph, source, target):  # prints the shortest path from source to target in
+    # a weighted graph using dikstra's shortest path algorithm
+    shortest_path_dikstra(weighted_graph, source)  # set all the correct dist and prev values
+    path = []
+    source_vertex_form = weighted_graph.get(source)
+    target_vertex_form = weighted_graph.get(target)  # store the vertex form (reference) of the source and target
+    while target_vertex_form is not source_vertex_form:
+        path.append(target_vertex_form)
+        target_vertex_form = target_vertex_form.prev
+    path.append(source)  # work backwards from target to source using prev values of all vertices
+    path.reverse()  # since stored in backwards order, reverse and return
+    for i in range(len(path) - 1):
+        print(path[i], "->", end=" ")
+    print(target)  # print the array in order
 
-# 1 -> 2: 6
-# 2 -> 3: 5
-# 3 -> 4: 2
-# 4 -> 5: 3
-# 1 -> 5: 1
-# 5 -> 2: 1
 
-# 1 -> 2 -> 3
-# ↓  ↑      ↑
-# 5 <- 4 ->
+def print_shortest_path_bellman_ford(weighted_graph, source, target):  # prints the shortest path from source to
+    # target in a weighted graph using bellman ford's shortest path algorithm
+    shortest_path_bellman_ford(weighted_graph, source)  # set all the correct dist and prev values
+    path = []
+    source_vertex_form = weighted_graph.get(source)
+    target_vertex_form = weighted_graph.get(target)  # store the vertex form (reference) of the source and target
+    while target_vertex_form is not source_vertex_form:
+        path.append(target_vertex_form)
+        target_vertex_form = target_vertex_form.prev
+    path.append(source)  # work backwards from target to source using prev values of all vertices
+    path.reverse()  # since stored in backwards order, reverse and return
+    for i in range(len(path) - 1):
+        print(path[i], "->", end=" ")
+    print(target)  # print the array in order
