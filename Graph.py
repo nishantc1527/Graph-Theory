@@ -80,6 +80,21 @@ def init_graph(directed_graph, source):  # resets all attributes
     directed_graph.get(source).dist = 0  # the distance from source to source is always 0
 
 
+def print_in_dfs(directed_graph, source):
+    init_graph(directed_graph, source)
+    print_in_dfs_helper(directed_graph, source)
+    print("\b\b")
+
+
+def print_in_dfs_helper(directed_graph, current_vertex):
+    directed_graph.get(current_vertex).color = 1
+    for vertex in directed_graph.adj[current_vertex]:
+        if directed_graph.get(vertex).color == 0:
+            print_in_dfs_helper(directed_graph, vertex)
+    directed_graph.get(current_vertex).color = 2
+    print(current_vertex, end=", ")
+
+
 def print_in_bfs(directed_graph, source):  # prints a directed graph in breadth-first-search, with a new line for
     # every level of depth
     init_graph(directed_graph, source)
