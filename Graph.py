@@ -81,8 +81,8 @@ def init_graph(directed_graph, source):  # resets all attributes
 
 
 def print_in_dfs(directed_graph, source):  # prints a directed graph in depth-first-search with source as the start.
-    # prints with "parametrization," meaning all neighbors and their depth-first-search are inside the parentheses 
-    # following the current vertex 
+    # prints with "parametrization," meaning all neighbors and their depth-first-search are inside the parentheses
+    # following the current vertex
     init_graph(directed_graph, source)  # initializes all color attributes (also initializes other attributes,
     # but those aren't updated)
     print_in_dfs_helper(directed_graph, source)  # calls helper function
@@ -259,3 +259,36 @@ def print_shortest_path_bellman_ford(weighted_graph, source, target):  # prints 
     for i in range(len(path) - 1):
         print(path[i], "->", end=" ")
     print(target)  # print the array in order
+
+
+def shortest_path_bellman_ford_optimized(weighted_graph, source):  # optimized version of bellman ford's shortest path
+    initialize_single_source(weighted_graph, source)  # initialize all prev, dist, and color values (doesn't use color)
+    shortest_path_bellman_ford_optimized_helper(weighted_graph, source)  # call helper function
+
+
+def shortest_path_bellman_ford_optimized_helper(weighted_graph, curr):  # helper function for optimized bellman ford
+    weight = weighted_graph.get(curr).dist  # get the minimum weight of the current vertex
+    for vertex in weighted_graph.adj[curr]:
+        vertex_form = weighted_graph.get(vertex)
+        if weight + weighted_graph.weights[curr, vertex] < vertex_form.dist:
+            vertex_form.dist = weight + weighted_graph.weights[curr, vertex]
+            vertex_form.prev = weighted_graph.get(curr)  # for all neighbors, check if the shortest path can be improved
+            shortest_path_bellman_ford_optimized_helper(weighted_graph, vertex)  # if it can, call the helper 
+            # function with that neighbor as the current vertex, because that vertex needs to relax all of it's edges 
+
+
+def print_shortest_path_bellman_ford_optimized(weighted_graph, source, target):  # prints the shortest path from 
+    # source to target in a weighted graph 
+    shortest_path_bellman_ford_optimized(weighted_graph, source)  # initialize all prev and dist values according to 
+    # the minimum path 
+    path = []
+    source = weighted_graph.get(source)
+    target = weighted_graph.get(target)
+    while target is not source:
+        path.append(target)
+        target = target.prev  # work backwards from the target to the source, storing the path
+    path.append(source)
+    path.reverse()  # append the source and then reverse the path, since it was stored in backwards order
+    for i in range(len(path) - 1):
+        print(path[i], end=" -> ")
+    print(path[len(path) - 1])  # print the path with an -> in between
