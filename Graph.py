@@ -80,19 +80,25 @@ def init_graph(directed_graph, source):  # resets all attributes
     directed_graph.get(source).dist = 0  # the distance from source to source is always 0
 
 
-def print_in_dfs(directed_graph, source):
-    init_graph(directed_graph, source)
-    print_in_dfs_helper(directed_graph, source)
-    print("\b\b")
+def print_in_dfs(directed_graph, source):  # prints a directed graph in depth-first-search with source as the start.
+    # prints with "parametrization," meaning all neighbors and their depth-first-search are inside the parentheses 
+    # following the current vertex 
+    init_graph(directed_graph, source)  # initializes all color attributes (also initializes other attributes,
+    # but those aren't updated)
+    print_in_dfs_helper(directed_graph, source)  # calls helper function
+    print("\b")  # deletes extra space from the end
 
 
-def print_in_dfs_helper(directed_graph, current_vertex):
-    directed_graph.get(current_vertex).color = 1
+def print_in_dfs_helper(directed_graph, current_vertex):  # helper function to print directed graph in depth first
+    # search
+    print(current_vertex, end=" ( ")  # print current vertex with a open parentheses for all the neighbors to go in
+    directed_graph.get(current_vertex).color = 1  # sets the color to grey because current vertex is being visited
     for vertex in directed_graph.adj[current_vertex]:
         if directed_graph.get(vertex).color == 0:
-            print_in_dfs_helper(directed_graph, vertex)
-    directed_graph.get(current_vertex).color = 2
-    print(current_vertex, end=", ")
+            print_in_dfs_helper(directed_graph, vertex)  # for every neighboring vertex that isn't visited,
+            # call helper function using that neighbor
+    print(")", end=" ")  # closing parentheses because all neighbors are visited
+    directed_graph.get(current_vertex).color = 2  # set color to black because all neighbors are visited
 
 
 def print_in_bfs(directed_graph, source):  # prints a directed graph in breadth-first-search, with a new line for
