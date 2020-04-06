@@ -261,26 +261,27 @@ def print_shortest_path_bellman_ford(weighted_graph, source, target):  # prints 
     print(target)  # print the array in order
 
 
-def shortest_path_bellman_ford_optimized(weighted_graph, source):  # optimized version of bellman ford's shortest path
+def shortest_path_bellman_ford_optimized_dfs(weighted_graph, source):  # optimized version of bellman ford's shortest
+    # path using depth first search
     initialize_single_source(weighted_graph, source)  # initialize all prev, dist, and color values (doesn't use color)
-    shortest_path_bellman_ford_optimized_helper(weighted_graph, source)  # call helper function
+    shortest_path_bellman_ford_optimized_helper_dfs(weighted_graph, source)  # call helper function
 
 
-def shortest_path_bellman_ford_optimized_helper(weighted_graph, curr):  # helper function for optimized bellman ford
+def shortest_path_bellman_ford_optimized_helper_dfs(weighted_graph, curr):  # helper function for optimized bellman ford
     weight = weighted_graph.get(curr).dist  # get the minimum weight of the current vertex
     for vertex in weighted_graph.adj[curr]:
         vertex_form = weighted_graph.get(vertex)
         if weight + weighted_graph.weights[curr, vertex] < vertex_form.dist:
             vertex_form.dist = weight + weighted_graph.weights[curr, vertex]
             vertex_form.prev = weighted_graph.get(curr)  # for all neighbors, check if the shortest path can be improved
-            shortest_path_bellman_ford_optimized_helper(weighted_graph, vertex)  # if it can, call the helper 
-            # function with that neighbor as the current vertex, because that vertex needs to relax all of it's edges 
+            shortest_path_bellman_ford_optimized_helper_dfs(weighted_graph, vertex)  # if it can, call the helper
+            # function with that neighbor as the current vertex, because that vertex needs to relax all of it's edges
 
 
-def print_shortest_path_bellman_ford_optimized(weighted_graph, source, target):  # prints the shortest path from 
-    # source to target in a weighted graph 
-    shortest_path_bellman_ford_optimized(weighted_graph, source)  # initialize all prev and dist values according to 
-    # the minimum path 
+def print_shortest_path_bellman_ford_optimized_dfs(weighted_graph, source, target):  # prints the shortest path from
+    # source to target in a weighted graph
+    shortest_path_bellman_ford_optimized_dfs(weighted_graph, source)  # initialize all prev and dist values according to
+    # the minimum path
     path = []
     source = weighted_graph.get(source)
     target = weighted_graph.get(target)
