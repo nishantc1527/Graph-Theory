@@ -43,7 +43,7 @@ class DirectedGraph(Graph):
 
     def add_vertex(self, val):
         self.adj[val] = []  # initialize val's adjacency list
-        self.vertices[val] = Vertex(val)  # set val's reference to to a new Vertex with value as val
+        self.vertices[val] = Vertex(val)  # set val's reference to curr
 
     def connect(self, val1, val2, weight):
         self.adj[val1].append(val2)  # add the vertex form of val2 to val1's adjacency
@@ -80,7 +80,32 @@ def init_graph(directed_graph, source):  # resets all attributes
     directed_graph.get(source).dist = 0  # the distance from source to source is always 0
 
 
-def shortest_path_bfs_initializer(directed_graph, source):
+def print_in_bfs(directed_graph, source):  # prints a directed graph in breadth-first-search, with a new line for
+    # every level of depth
+    init_graph(directed_graph, source)
+    queue = [(source, 0)]
+    depth = 0  # store the vertex and the depth of that vertex into the queue
+    while len(queue) != 0:  # loop until there are no more vertices to traverse
+        current_vertex, curr_depth = queue.pop(0)
+        directed_graph.get(current_vertex).color = 1  # get the next vertex and depth in from the queue, and set the
+        # color to 1 (grey) because it's visited now
+        if curr_depth != depth:
+            depth += 1
+            print("\b\b")
+            print(current_vertex, end=", ")  # if the depth of that vertex is not the current depth, delete the space
+            # and comma from the current line, make a new line, and print the current vertex
+        else:
+            print(current_vertex, end=", ")  # if the depth matches the current depth, just print the vertex
+        for vertex in directed_graph.adj[current_vertex]:
+            if directed_graph.get(vertex).color == 0:
+                queue.append((vertex, depth + 1))  # add all the neighbors of the current vertex with a depth of the
+                # current vertex plus 1
+        directed_graph.get(current_vertex).color = 2  # set the color to black because you visited all the neighbors
+    print("\b\b")  # delete the extra space and comma from the end
+
+
+def shortest_path_bfs_initializer(directed_graph, source):  # initializes all prev and dist values in order of
+    # breadth-first-search in a directed graph
     # color: 0 means white, 1 mean grey, 2 means black
     # white means not visited, grey means visited, black means visited and all neighbors are visited
 
@@ -104,10 +129,8 @@ def shortest_path_bfs_initializer(directed_graph, source):
         curr.color = 2
 
 
-# Can be called only after bfs with source as the start is called
-
-
-def shortest_path_bfs(directed_graph, source, target):
+def shortest_path_bfs(directed_graph, source, target):  # gives the shortest path from a source vertex to a target
+    # vertex in a directed graph in the form of an array
     shortest_path_bfs_initializer(directed_graph, source)  # initializes the prev and color values of all vertices
     ans = []
     source = directed_graph.get(source)
@@ -140,7 +163,9 @@ def initialize_single_source(weighted_graph, source):  # initialize all attribut
     weighted_graph.get(source).dist = 0  # the distance from source to source is 0
 
 
-def shortest_path_dikstra(weighted_graph, source):
+def shortest_path_dikstra(weighted_graph, source):  # calculates the shortest path from a source node to all other
+    # nodes using dikstra's shortest path algorithm and sets the dist attribute to all vertices based on the shortest
+    # path from the source to that vertex. also sets the prev attribute indicating the previous vertex in that path
     initialize_single_source(weighted_graph, source)
     visited = set()
     size = len(weighted_graph.vertices)  # initialize all attributes, and keep a set to keep track of all visited
@@ -162,7 +187,10 @@ def shortest_path_dikstra(weighted_graph, source):
         visited.add(minimum_vertex)  # add the vertex selected to the visited set
 
 
-def shortest_path_bellman_ford(weighted_graph, source):
+def shortest_path_bellman_ford(weighted_graph, source):  # calculates the shortest path from a source node to all other
+    # nodes using bellman ford's shortest path algorithm and sets the dist attribute to all vertices based on the
+    # shortest path from the source to that vertex. also sets the prev attribute indicating the previous vertex in
+    # that path
     initialize_single_source(weighted_graph, source)
     visited = set()
     visited.add(weighted_graph.get(source))
