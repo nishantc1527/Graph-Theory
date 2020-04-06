@@ -1,5 +1,8 @@
 # Graph-Functions
 Implementation of a directed and weighted graph, with graph algorithms.
+# Implementations
+Directed Graph (adjacency list)  
+Weighted Graph (adjacency list)
 # Traversal
 Breadth First Search  
 Depth First Search
