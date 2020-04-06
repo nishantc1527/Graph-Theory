@@ -43,7 +43,7 @@ class DirectedGraph(Graph):
 
     def add_vertex(self, val):
         self.adj[val] = []  # initialize val's adjacency list
-        self.vertices[val] = Vertex(val)  # set val's reference to curr
+        self.vertices[val] = Vertex(val)  # set val's reference to to a new Vertex with value as val
 
     def connect(self, val1, val2, weight):
         self.adj[val1].append(val2)  # add the vertex form of val2 to val1's adjacency
