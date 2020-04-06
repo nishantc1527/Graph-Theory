@@ -9,5 +9,5 @@ Depth First Search
 # Shortest Path
 Breadth First Search Shortest Path (Directed Graph)  
 Dikstra's Shortest Path (Weighted Graph)  
-Bellman Ford's Shortest Path (Weighted Graph)
+Bellman Ford's Shortest Path (Weighted Graph)  
 Optimized Bellman Ford's Shortest Path (Weighted Graph)
