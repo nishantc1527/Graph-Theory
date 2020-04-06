@@ -1,2 +1,8 @@
 # Graph-Functions
-Implementation of a directed and weighted graph, along with finding the shortest path in a directed graph using breadth first search, and finding the shortest path in a weighted graph with Dikstra and Bellman Ford algorithms.
+Implementation of a directed and weighted graph, with graph algorithms.
+# Traversal
+Breadth First Search
+Depth First Search
+# Shortest Path
+Dikstra's Shortest Path
+Bellman Ford's Shortest Path
