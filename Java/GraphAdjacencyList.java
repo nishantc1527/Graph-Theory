@@ -1,6 +1,6 @@
 package GraphTheory;
 
-public interface Graph<E> {
+public interface GraphAdjacencyList<E> {
 
     void addVertex(E val);
     void connect(E val1, E val2, Integer... weight);

@@ -3,7 +3,7 @@ package GraphTheory;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class DirectedGraph<E> implements Graph<E> {
+public class DirectedGraphAdjacencyList<E> implements GraphAdjacencyList<E> {
 
     public HashMap<E, LinkedList<E>> adjacencyList;
     public HashMap<E, Vertex<E>> vertices;
