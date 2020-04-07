@@ -10,6 +10,13 @@ public class WeightedGraphAdjacencyList<E> implements GraphAdjacencyList<E> {
     public HashMap<Edge<E>, Integer> weights;
     public HashMap<Pair<E, E>, Edge<E>> edges;
 
+    public WeightedGraphAdjacencyList() {
+        adjacencyList = new HashMap<>();
+        vertices = new HashMap<>();
+        weights = new HashMap<>();
+        edges = new HashMap<>();
+    }
+
     @Override
     public void addVertex(E val) {
         vertices.putIfAbsent(val, new Vertex<>(val));
@@ -19,7 +26,9 @@ public class WeightedGraphAdjacencyList<E> implements GraphAdjacencyList<E> {
     @Override
     public void connect(E val1, E val2, Integer... weight) {
         adjacencyList.getOrDefault(val1, new LinkedList<>()).add(val2);
-        weights.putIfAbsent(new Edge<>(val1, val2), weight[0]);
+        Edge<E> curr = new Edge<>(val1, val2);
+        edges.putIfAbsent(new Pair<>(val1, val2), curr);
+        weights.putIfAbsent(curr, weight[0]);
     }
 
     @Override
