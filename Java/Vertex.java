@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Vertex<E> {
 
     public E val;
-    public int dist;
+    public long dist;
     public Vertex<E> prev;
     public Color color;
 
