@@ -1,11 +1,19 @@
 package GraphTheory;
 
+import java.util.HashMap;
+
 public class WeightedGraphAdjacencyMatrix implements GraphAdjacencyMatrix {
 
     public int[][] matrix;
+    public HashMap<Integer, Vertex<Integer>> vertices;
 
     public WeightedGraphAdjacencyMatrix(int vertices) {
         matrix = new int[vertices][vertices];
+        this.vertices = new HashMap<>();
+
+        for(int i = 0; i < vertices; i ++) {
+            this.vertices.put(i, new Vertex<>(i));
+        }
     }
 
     @Override
@@ -33,6 +41,11 @@ public class WeightedGraphAdjacencyMatrix implements GraphAdjacencyMatrix {
         }
 
         return matrix[val1][val2];
+    }
+
+    @Override
+    public Vertex<Integer> get(int val) {
+        return vertices.get(val);
     }
 
 }

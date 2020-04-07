@@ -8,6 +8,11 @@ public class DirectedGraphAdjacencyList<E> implements GraphAdjacencyList<E> {
     public HashMap<E, LinkedList<E>> adjacencyList;
     public HashMap<E, Vertex<E>> vertices;
 
+    public DirectedGraphAdjacencyList() {
+        adjacencyList = new HashMap<>();
+        vertices = new HashMap<>();
+    }
+
     @Override
     public void addVertex(E val) {
         vertices.putIfAbsent(val, new Vertex<>(val));
