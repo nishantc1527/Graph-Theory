@@ -1,5 +1,7 @@
 # Graph-Theory
 Implementation of a directed and weighted graph, with graph algorithms.
+# NOTE
+The Python files are way more developed than the Java ones, you should probably look at those.
 # Python  
 ## Implementations
 Directed Graph (Adjacency List)  
